@@ -8,8 +8,9 @@
     <ProjectGuid>{6B2DEAF3-F329-40FC-B192-5162B0A375F9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>SQLGrenadine.Database</RootNamespace>
-    <AssemblyName>DatabaseManager</AssemblyName>
+    <AssemblyName>Database</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <BaseDirectory>..\Database</BaseDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
