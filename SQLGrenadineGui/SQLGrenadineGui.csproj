@@ -89,13 +89,13 @@
       <Project>{992FF74E-FAA1-47B5-96FB-A9A8A9C307FF}</Project>
       <Name>Plugins</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DatabaseManager\Database.csproj">
-      <Project>{6B2DEAF3-F329-40FC-B192-5162B0A375F9}</Project>
-      <Name>Database</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{67B4FD1E-B53F-4536-83BA-31B2FF0CD99E}</Project>
       <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Database\Database.csproj">
+      <Project>{6B2DEAF3-F329-40FC-B192-5162B0A375F9}</Project>
+      <Name>Database</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

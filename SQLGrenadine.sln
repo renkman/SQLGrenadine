@@ -5,11 +5,11 @@ Project("{9344bdbb-3e7f-41fc-a0dd-8665d75ee146}") = "Packages", "Packages.mdproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLGrenadineGui", "SQLGrenadineGui\SQLGrenadineGui.csproj", "{D14D1521-62B1-4F46-AB22-09D8F9D41B7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "DatabaseManager\Database.csproj", "{6B2DEAF3-F329-40FC-B192-5162B0A375F9}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugins", "Plugins\Plugins.csproj", "{992FF74E-FAA1-47B5-96FB-A9A8A9C307FF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{67B4FD1E-B53F-4536-83BA-31B2FF0CD99E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Database.csproj", "{6B2DEAF3-F329-40FC-B192-5162B0A375F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

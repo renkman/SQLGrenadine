@@ -86,7 +86,10 @@ namespace SQLGrenadine.Plugins.DatabaseSystems.MySql
 				tables.Add(table);
 			}
 			reader.Close();
+			reader.Dispose();
+			reader=null;
 			command.Dispose();
+			command=null;
 			return tables;
 		}
 	}

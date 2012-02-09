@@ -81,14 +81,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DatabaseManager\Database.csproj">
-      <Project>{6B2DEAF3-F329-40FC-B192-5162B0A375F9}</Project>
-      <Name>Database</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
       <LogicalName>gui.stetic</LogicalName>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Database\Database.csproj">
+      <Project>{6B2DEAF3-F329-40FC-B192-5162B0A375F9}</Project>
+      <Name>Database</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
