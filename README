@@ -1,0 +1,5 @@
+SQL Grenadine is REally Neither A Database Interface Nor an Editor
+
+SQLGrenadine will be an SQL database management tool, written in Mono C# with a GUI realized with GTK#.
+
+The goal is to develop a platform, which will be capable to connect to any database the user wants, via System.Data interface and a plugin structure for the specific database dll's, connection and management stuff.  
