@@ -61,11 +61,11 @@
         <property name="Label" translatable="yes">New Con</property>
         <property name="ShortLabel" translatable="yes">New Con</property>
       </action>
-      <action id="newConnection">
+      <action id="connectAction1">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">New Connection</property>
         <property name="ShortLabel" translatable="yes">New Connection</property>
-        <property name="StockId">gtk-execute</property>
+        <property name="StockId">gtk-connect</property>
         <signal name="Activated" handler="OnConnect" />
       </action>
       <action id="newButtonQuery">
@@ -82,17 +82,38 @@
         <property name="StockId">gtk-close</property>
         <signal name="Activated" handler="OnClose" />
       </action>
-      <action id="executeAction1">
+      <action id="connectAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">Connect to Database</property>
         <property name="ShortLabel" translatable="yes">Connect to Database</property>
-        <property name="StockId">gtk-execute</property>
+        <property name="StockId">gtk-connect</property>
         <signal name="Activated" handler="OnConnect" />
       </action>
       <action id="MySqlAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">MySql</property>
         <property name="ShortLabel" translatable="yes">MySql</property>
+      </action>
+      <action id="executeQuery">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-execute</property>
+        <signal name="Activated" handler="OnExecuteQuery" />
+      </action>
+      <action id="parseQuery">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-apply</property>
+      </action>
+      <action id="propertiesAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="ShortLabel" translatable="yes">Connection preferences</property>
+        <property name="StockId">gtk-preferences</property>
+      </action>
+      <action id="Action">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
       </action>
     </action-group>
     <property name="MemberName" />
@@ -115,7 +136,7 @@
               </node>
               <node type="Menu" action="EditAction" />
               <node type="Menu" action="DatabaseAction">
-                <node type="Menuitem" action="executeAction1" />
+                <node type="Menuitem" action="connectAction" />
               </node>
               <node type="Menu" action="PreferencesAction" />
               <node type="Menu" action="HelpAction" />
@@ -135,6 +156,10 @@
             <property name="ShowArrow">False</property>
             <node name="toolbarMain" type="Toolbar">
               <node type="Toolitem" action="newButtonQuery" />
+              <node type="Separator" />
+              <node type="Toolitem" action="executeQuery" />
+              <node type="Toolitem" action="parseQuery" />
+              <node type="Toolitem" action="Action" />
             </node>
           </widget>
           <packing>
@@ -148,19 +173,20 @@
           <widget class="Gtk.HPaned" id="hpanedMain">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
-            <property name="Position">216</property>
+            <property name="Position">225</property>
             <child>
               <widget class="Gtk.VBox" id="vbox1">
                 <property name="MemberName" />
                 <property name="Spacing">6</property>
                 <child>
-                  <widget class="Gtk.Toolbar" id="toolbar2">
+                  <widget class="Gtk.Toolbar" id="toolbarDatabaseTree">
                     <property name="MemberName" />
                     <property name="Events">Button1MotionMask, ButtonPressMask, ButtonReleaseMask, LeaveNotifyMask</property>
                     <property name="ShowArrow">False</property>
                     <property name="ButtonStyle">Both</property>
-                    <node name="toolbar2" type="Toolbar">
-                      <node type="Toolitem" action="newConnection" />
+                    <node name="toolbarDatabaseTree" type="Toolbar">
+                      <node type="Toolitem" action="connectAction1" />
+                      <node type="Toolitem" action="propertiesAction" />
                     </node>
                   </widget>
                   <packing>
@@ -236,7 +262,7 @@
       <widget class="Gtk.VPaned" id="vpanedContent">
         <property name="MemberName" />
         <property name="CanFocus">True</property>
-        <property name="Position">241</property>
+        <property name="Position">138</property>
         <child>
           <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow1">
             <property name="MemberName" />
@@ -255,14 +281,38 @@
           </packing>
         </child>
         <child>
-          <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow2">
+          <widget class="Gtk.VPaned" id="vpanedResult">
             <property name="MemberName" />
-            <property name="ShadowType">In</property>
+            <property name="CanFocus">True</property>
+            <property name="Position">151</property>
             <child>
-              <widget class="Gtk.TreeView" id="treeviewResult">
+              <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
                 <property name="MemberName" />
-                <property name="CanFocus">True</property>
-                <property name="ShowScrollbars">True</property>
+                <property name="ShadowType">In</property>
+                <child>
+                  <widget class="Gtk.TreeView" id="treeviewResult">
+                    <property name="MemberName" />
+                    <property name="CanFocus">True</property>
+                    <property name="ShowScrollbars">True</property>
+                  </widget>
+                </child>
+              </widget>
+              <packing>
+                <property name="Resize">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow2">
+                <property name="MemberName" />
+                <property name="ShadowType">In</property>
+                <child>
+                  <widget class="Gtk.TextView" id="textviewEditorMessage">
+                    <property name="MemberName" />
+                    <property name="CanFocus">True</property>
+                    <property name="ShowScrollbars">True</property>
+                    <property name="Text" translatable="yes" />
+                  </widget>
+                </child>
               </widget>
             </child>
           </widget>

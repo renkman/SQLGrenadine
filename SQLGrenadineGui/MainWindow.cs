@@ -65,15 +65,18 @@ namespace SQLGrenadineGui
 		
 		protected void OnClosePage (NotebookCloseButtonLabel label)
 		{
+			// Get notebook widget
 			var notebook=label.Parent as Notebook;
 			if(notebook==null)
 				return;
 			
+			// Get page to close
 			for(int i=0; i<notebook.NPages; i++)
 			{
 				var page = notebook.GetNthPage(i);
 				var curLabel = notebook.GetTabLabel(page);
 				
+				// Remove page
 				if(curLabel==label)
 				{
 					notebookContent.RemovePage(i);
@@ -105,7 +108,20 @@ namespace SQLGrenadineGui
 				_treestoreDatabases.AppendValues(iterTables, table.Name);
 			}
 			treeviewDatabase.Show();
+			var page = notebookContent.CurrentPageWidget as QueryWidget;
+			if(page==null)
+				return;
+			page.Database=database;
 		}
+
+		protected void OnExecuteQuery (object sender, System.EventArgs e)
+		{
+			var page = notebookContent.CurrentPageWidget as QueryWidget;
+			if (page==null)
+				return;
+			page.ExecuteCommand();
+		}
+
 		#endregion		
 	}
 }

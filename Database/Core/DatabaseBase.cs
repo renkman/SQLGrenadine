@@ -76,7 +76,75 @@ namespace SQLGrenadine.Database.Core
 			return null;
 		}
 		
+		/// <summary>
+		/// Gets the tables of the currently connected database.
+		/// </summary>
+		/// <returns>
+		/// A list with table objects.
+		/// </returns>
 		public abstract List<Table> GetTables();
+		
+		/// <summary>
+		/// Executes the passed command on the database of the current connection.
+		/// </summary>
+		/// <returns>
+		/// The resultset of the successful executed command. If the command failed
+		/// or was no query, the return value is null.
+		/// </returns>
+		/// <param name='Command'>
+		/// The SQL command to execute.
+		/// </param>
+		/// <param name='message'>
+		/// The the info or error message, which may occur.
+		/// </param>
+		public DataTable ExecuteCommand(string commandText, ref string message)
+		{
+			var result = new DataTable();
+			IDbCommand command = null;
+			IDataReader reader = null;
+			try
+			{
+				command = Connection.CreateCommand();
+				command.CommandText = commandText;
+				
+				reader = command.ExecuteReader();
+				var schema = reader.GetSchemaTable();
+				
+				// Setup result columns
+				foreach(DataRow column in schema.Rows)	
+					result.Columns.Add(column[0].ToString());
+				
+				// Add data rows to the resultset
+				while(reader.Read())
+				{
+					var data = new object[schema.Rows.Count];
+					for(var i=0; i<reader.FieldCount;i++)
+						data[i]=reader[i];
+	
+					result.Rows.Add(data);
+				}
+				message = reader.RecordsAffected.ToString();
+			}
+			catch(Exception e)
+			{
+				message = e.Message;
+			}
+			finally
+			{
+				if(reader!=null)
+				{
+					reader.Close();
+					reader.Dispose();
+					reader = null;
+				}
+				if(command!=null)
+				{
+					command.Dispose();
+					command = null;
+				}
+			}
+			return result;
+		}
 	}
 }
 

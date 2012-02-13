@@ -7,8 +7,11 @@ namespace SQLGrenadineGui
 		private global::Gtk.VPaned vpanedContent;
 		private global::Gtk.ScrolledWindow GtkScrolledWindow1;
 		private global::Gtk.TextView textviewEditor;
-		private global::Gtk.ScrolledWindow GtkScrolledWindow2;
+		private global::Gtk.VPaned vpanedResult;
+		private global::Gtk.ScrolledWindow GtkScrolledWindow;
 		private global::Gtk.TreeView treeviewResult;
+		private global::Gtk.ScrolledWindow GtkScrolledWindow2;
+		private global::Gtk.TextView textviewEditorMessage;
         
 		protected virtual void Build ()
 		{
@@ -20,7 +23,7 @@ namespace SQLGrenadineGui
 			this.vpanedContent = new global::Gtk.VPaned ();
 			this.vpanedContent.CanFocus = true;
 			this.vpanedContent.Name = "vpanedContent";
-			this.vpanedContent.Position = 241;
+			this.vpanedContent.Position = 138;
 			// Container child vpanedContent.Gtk.Paned+PanedChild
 			this.GtkScrolledWindow1 = new global::Gtk.ScrolledWindow ();
 			this.GtkScrolledWindow1.Name = "GtkScrolledWindow1";
@@ -34,15 +37,33 @@ namespace SQLGrenadineGui
 			global::Gtk.Paned.PanedChild w2 = ((global::Gtk.Paned.PanedChild)(this.vpanedContent [this.GtkScrolledWindow1]));
 			w2.Resize = false;
 			// Container child vpanedContent.Gtk.Paned+PanedChild
+			this.vpanedResult = new global::Gtk.VPaned ();
+			this.vpanedResult.CanFocus = true;
+			this.vpanedResult.Name = "vpanedResult";
+			this.vpanedResult.Position = 151;
+			// Container child vpanedResult.Gtk.Paned+PanedChild
+			this.GtkScrolledWindow = new global::Gtk.ScrolledWindow ();
+			this.GtkScrolledWindow.Name = "GtkScrolledWindow";
+			this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
+			// Container child GtkScrolledWindow.Gtk.Container+ContainerChild
+			this.treeviewResult = new global::Gtk.TreeView ();
+			this.treeviewResult.CanFocus = true;
+			this.treeviewResult.Name = "treeviewResult";
+			this.GtkScrolledWindow.Add (this.treeviewResult);
+			this.vpanedResult.Add (this.GtkScrolledWindow);
+			global::Gtk.Paned.PanedChild w4 = ((global::Gtk.Paned.PanedChild)(this.vpanedResult [this.GtkScrolledWindow]));
+			w4.Resize = false;
+			// Container child vpanedResult.Gtk.Paned+PanedChild
 			this.GtkScrolledWindow2 = new global::Gtk.ScrolledWindow ();
 			this.GtkScrolledWindow2.Name = "GtkScrolledWindow2";
 			this.GtkScrolledWindow2.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child GtkScrolledWindow2.Gtk.Container+ContainerChild
-			this.treeviewResult = new global::Gtk.TreeView ();
-			this.treeviewResult.CanFocus = true;
-			this.treeviewResult.Name = "treeviewResult";
-			this.GtkScrolledWindow2.Add (this.treeviewResult);
-			this.vpanedContent.Add (this.GtkScrolledWindow2);
+			this.textviewEditorMessage = new global::Gtk.TextView ();
+			this.textviewEditorMessage.CanFocus = true;
+			this.textviewEditorMessage.Name = "textviewEditorMessage";
+			this.GtkScrolledWindow2.Add (this.textviewEditorMessage);
+			this.vpanedResult.Add (this.GtkScrolledWindow2);
+			this.vpanedContent.Add (this.vpanedResult);
 			this.Add (this.vpanedContent);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
