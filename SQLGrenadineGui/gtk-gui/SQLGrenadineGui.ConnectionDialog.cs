@@ -18,6 +18,7 @@ namespace SQLGrenadineGui
 			// Widget SQLGrenadineGui.ConnectionDialog
 			this.Name = "SQLGrenadineGui.ConnectionDialog";
 			this.Title = global::Mono.Unix.Catalog.GetString ("Connection");
+			this.Icon = global::Stetic.IconLoader.LoadIcon (this, "gtk-dialog-authentication", global::Gtk.IconSize.Menu);
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 			// Internal child SQLGrenadineGui.ConnectionDialog.VBox
 			global::Gtk.VBox w1 = this.VBox;

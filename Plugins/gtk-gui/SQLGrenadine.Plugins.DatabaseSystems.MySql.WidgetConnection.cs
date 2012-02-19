@@ -81,6 +81,7 @@ namespace SQLGrenadine.Plugins.DatabaseSystems.MySql
 			w6.Y = 154;
 			// Container child fixedConnectionData.Gtk.Fixed+FixedChild
 			this.comboboxentryHost = global::Gtk.ComboBoxEntry.NewText ();
+			this.comboboxentryHost.AppendText (global::Mono.Unix.Catalog.GetString ("localhost"));
 			this.comboboxentryHost.Name = "comboboxentryHost";
 			this.fixedConnectionData.Add (this.comboboxentryHost);
 			global::Gtk.Fixed.FixedChild w7 = ((global::Gtk.Fixed.FixedChild)(this.fixedConnectionData [this.comboboxentryHost]));
@@ -88,6 +89,7 @@ namespace SQLGrenadine.Plugins.DatabaseSystems.MySql
 			w7.Y = 34;
 			// Container child fixedConnectionData.Gtk.Fixed+FixedChild
 			this.comboboxentryDatabase = global::Gtk.ComboBoxEntry.NewText ();
+			this.comboboxentryDatabase.AppendText (global::Mono.Unix.Catalog.GetString ("db1013497-datasalmon"));
 			this.comboboxentryDatabase.Name = "comboboxentryDatabase";
 			this.fixedConnectionData.Add (this.comboboxentryDatabase);
 			global::Gtk.Fixed.FixedChild w8 = ((global::Gtk.Fixed.FixedChild)(this.fixedConnectionData [this.comboboxentryDatabase]));
@@ -106,6 +108,7 @@ namespace SQLGrenadine.Plugins.DatabaseSystems.MySql
 			w9.Y = 124;
 			// Container child fixedConnectionData.Gtk.Fixed+FixedChild
 			this.comboboxentryUser = global::Gtk.ComboBoxEntry.NewText ();
+			this.comboboxentryUser.AppendText (global::Mono.Unix.Catalog.GetString ("dbu1013497"));
 			this.comboboxentryUser.Name = "comboboxentryUser";
 			this.fixedConnectionData.Add (this.comboboxentryUser);
 			global::Gtk.Fixed.FixedChild w10 = ((global::Gtk.Fixed.FixedChild)(this.fixedConnectionData [this.comboboxentryUser]));

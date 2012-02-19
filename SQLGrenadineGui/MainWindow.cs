@@ -1,6 +1,8 @@
 using System;
 using Gtk;
 using SQLGrenadine.Database.Core;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SQLGrenadineGui
 {
@@ -8,9 +10,14 @@ namespace SQLGrenadineGui
 	{
 		private int _tabCount;
 		private TreeStore _treestoreDatabases;
+		private List<DatabaseBase> _connectionMapping;
 		
 		public MainWindow (): base (Gtk.WindowType.Toplevel)
-		{
+		{			
+			// Initialize connection mapping
+			_connectionMapping = new List<DatabaseBase>();
+			_connectionMapping.Add(null);
+
 			Build ();
 			AddTabPage();
 			
@@ -31,9 +38,10 @@ namespace SQLGrenadineGui
 		{
 			_tabCount++;
 			
-			// Create new query widget to append to notebook 
-			// and get current pages number
+			// Create new query widget to append to notebook, add currently
+			// selected database and get current pages number
 			var queryWidget = new QueryWidget();
+			queryWidget.Database = GetSelectedDatabase();
 			var index = notebookContent.NPages;
 			var label = new NotebookCloseButtonLabel(String.Format("New Query {0}", _tabCount));
 			
@@ -100,28 +108,82 @@ namespace SQLGrenadineGui
 		
 		protected void OnConnected(DatabaseBase database)
 		{
+			// Add new connection to database treeview
 			TreeIter iterDatabase = _treestoreDatabases.AppendValues(database.Name);
 			TreeIter iterTables = _treestoreDatabases.AppendValues(iterDatabase, "Tables");
 			var tables = database.GetTables();
 			foreach(var table in tables)
-			{
 				_treestoreDatabases.AppendValues(iterTables, table.Name);
-			}
+
 			treeviewDatabase.Show();
 			var page = notebookContent.CurrentPageWidget as QueryWidget;
 			if(page==null)
 				return;
-			page.Database=database;
+			
+			// Add new connection to connection list
+			comboboxConnections.AppendText(String.Format("{0}@{1} ({2})",database.ConnectionData.Host, 
+				database.Name, database.Vendor));
+			//var count = comboboxConnections.Model.IterNChildren();
+			_connectionMapping.Add(database);
+			
 		}
-
-		protected void OnExecuteQuery (object sender, System.EventArgs e)
+		
+		private void ExecuteCommand()
 		{
 			var page = notebookContent.CurrentPageWidget as QueryWidget;
 			if (page==null)
 				return;
 			page.ExecuteCommand();
 		}
+			
+		private DatabaseBase GetSelectedDatabase()
+		{
+			// Get the currently selected combobox index and select the
+			// database object from the list
+			var index = comboboxConnections.Active;
+			if(index<0)
+				return null;
+			if(_connectionMapping.Count>index)
+				return _connectionMapping[index];
+			return null;
+		}
 
+		protected void OnExecuteQuery (object sender, System.EventArgs e)
+		{
+			ExecuteCommand();
+		}
+
+
+		protected void OnKeyPressed (object o, Gtk.KeyPressEventArgs args)
+		{
+			if(args.Event.Key.Equals(Gdk.Key.F5))
+				ExecuteCommand();				
+		}
+
+		protected void OnConnectionsChanged (object sender, System.EventArgs e)
+		{
+			// Get the currently selected page
+			var page = notebookContent.CurrentPageWidget as QueryWidget;
+			var database = GetSelectedDatabase();
+			if (page!=null)
+				page.Database=database;
+			
+			// Use code highlighting of the new connection
+			page.HighlightCode();
+		}
+
+		protected void OnSwitchPage (object o, Gtk.SwitchPageArgs args)
+		{
+			// Get the currently selected page
+			var page = notebookContent.CurrentPageWidget as QueryWidget;
+			if(page==null)
+				return;
+			
+			// Get the database of the selected database and select the related
+			// item in the connection combobox
+			var index = _connectionMapping.IndexOf(page.Database);
+			comboboxConnections.Active=index;
+		}
 		#endregion		
 	}
 }

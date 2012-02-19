@@ -31,6 +31,8 @@ namespace SQLGrenadine.Database.Core
 	{				
 		private static Dictionary<int, DatabaseBase> _databaseStore;
 	
+		abstract public HashSet<string> Keywords { get; }
+		
 		/// <summary>
 		/// Gets or sets the connection.
 		/// </summary>
@@ -111,8 +113,22 @@ namespace SQLGrenadine.Database.Core
 				var schema = reader.GetSchemaTable();
 				
 				// Setup result columns
-				foreach(DataRow column in schema.Rows)	
-					result.Columns.Add(column[0].ToString());
+				foreach(DataRow row in schema.Rows)
+				{
+					// Set column name with pattern tablename.columnname
+					var name = row["BaseTableName"] != null ? 
+						String.Format("{0}.{1}",
+						row["BaseTableName"].ToString(),
+						row["ColumnName"].ToString()):
+						row["ColumnName"].ToString();
+					// Set column data type
+					var type = row["DataType"] as Type;
+					var column = type != null ? 
+						result.Columns.Add(name, type):
+						result.Columns.Add(name);
+					// Set column caption
+					column.Caption = row["ColumnName"].ToString();
+				}
 				
 				// Add data rows to the resultset
 				while(reader.Read())

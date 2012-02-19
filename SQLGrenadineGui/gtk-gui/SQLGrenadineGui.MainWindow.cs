@@ -23,8 +23,17 @@ namespace SQLGrenadineGui
 		private global::Gtk.Action parseQuery;
 		private global::Gtk.Action propertiesAction;
 		private global::Gtk.Action Action;
+		private global::Gtk.RadioAction Action1;
+		private global::Gtk.Action openAction;
+		private global::Gtk.Action saveAsAction;
+		private global::Gtk.Action SaveAction;
+		private global::Gtk.Action saveAction;
+		private global::Gtk.Action loadButtonFile;
+		private global::Gtk.Action saveButtonFile;
 		private global::Gtk.VBox vboxMain;
 		private global::Gtk.MenuBar menubarMain;
+		private global::Gtk.HBox hboxToolbar;
+		private global::Gtk.ComboBox comboboxConnections;
 		private global::Gtk.Toolbar toolbarMain;
 		private global::Gtk.HPaned hpanedMain;
 		private global::Gtk.VBox vbox1;
@@ -62,14 +71,15 @@ namespace SQLGrenadineGui
 			this.quitAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Quit");
 			w1.Add (this.quitAction, null);
 			this.executeAction = new global::Gtk.Action ("executeAction", null, null, "gtk-execute");
+			this.executeAction.ShortLabel = "";
 			w1.Add (this.executeAction, null);
 			this.NewConAction = new global::Gtk.Action ("NewConAction", global::Mono.Unix.Catalog.GetString ("New Con"), null, null);
 			this.NewConAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("New Con");
 			w1.Add (this.NewConAction, null);
-			this.connectAction1 = new global::Gtk.Action ("connectAction1", global::Mono.Unix.Catalog.GetString ("New Connection"), null, "gtk-connect");
+			this.connectAction1 = new global::Gtk.Action ("connectAction1", global::Mono.Unix.Catalog.GetString ("New Connection"), global::Mono.Unix.Catalog.GetString ("Open a new database connection and add it to the tree."), "gtk-connect");
 			this.connectAction1.ShortLabel = global::Mono.Unix.Catalog.GetString ("New Connection");
 			w1.Add (this.connectAction1, null);
-			this.newButtonQuery = new global::Gtk.Action ("newButtonQuery", global::Mono.Unix.Catalog.GetString ("New Query"), null, "gtk-new");
+			this.newButtonQuery = new global::Gtk.Action ("newButtonQuery", global::Mono.Unix.Catalog.GetString ("New Query"), global::Mono.Unix.Catalog.GetString ("Open a new query tab."), "gtk-new");
 			this.newButtonQuery.ShortLabel = global::Mono.Unix.Catalog.GetString ("New Query");
 			w1.Add (this.newButtonQuery, null);
 			this.closeAction = new global::Gtk.Action ("closeAction", global::Mono.Unix.Catalog.GetString ("Close"), null, "gtk-close");
@@ -81,15 +91,40 @@ namespace SQLGrenadineGui
 			this.MySqlAction = new global::Gtk.Action ("MySqlAction", global::Mono.Unix.Catalog.GetString ("MySql"), null, null);
 			this.MySqlAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("MySql");
 			w1.Add (this.MySqlAction, null);
-			this.executeQuery = new global::Gtk.Action ("executeQuery", null, null, "gtk-execute");
+			this.executeQuery = new global::Gtk.Action ("executeQuery", null, global::Mono.Unix.Catalog.GetString ("Execute SQL commands of current tab."), "gtk-execute");
+			this.executeQuery.ShortLabel = "";
 			w1.Add (this.executeQuery, null);
 			this.parseQuery = new global::Gtk.Action ("parseQuery", null, null, "gtk-apply");
+			this.parseQuery.ShortLabel = "";
 			w1.Add (this.parseQuery, null);
-			this.propertiesAction = new global::Gtk.Action ("propertiesAction", null, null, "gtk-preferences");
-			this.propertiesAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Connection preferences");
+			this.propertiesAction = new global::Gtk.Action ("propertiesAction", null, null, "gtk-properties");
+			this.propertiesAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Properties");
 			w1.Add (this.propertiesAction, null);
 			this.Action = new global::Gtk.Action ("Action", null, null, null);
+			this.Action.ShortLabel = "";
 			w1.Add (this.Action, null);
+			this.Action1 = new global::Gtk.RadioAction ("Action1", null, null, null, 0);
+			this.Action1.Group = new global::GLib.SList (global::System.IntPtr.Zero);
+			this.Action1.ShortLabel = "";
+			w1.Add (this.Action1, null);
+			this.openAction = new global::Gtk.Action ("openAction", global::Mono.Unix.Catalog.GetString ("Open ..."), null, "gtk-open");
+			this.openAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Open ...");
+			w1.Add (this.openAction, null);
+			this.saveAsAction = new global::Gtk.Action ("saveAsAction", global::Mono.Unix.Catalog.GetString ("Save As ..."), null, "gtk-save-as");
+			this.saveAsAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Save As ...");
+			w1.Add (this.saveAsAction, null);
+			this.SaveAction = new global::Gtk.Action ("SaveAction", global::Mono.Unix.Catalog.GetString ("Save"), null, null);
+			this.SaveAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Save");
+			w1.Add (this.SaveAction, null);
+			this.saveAction = new global::Gtk.Action ("saveAction", global::Mono.Unix.Catalog.GetString ("Save"), null, "gtk-save");
+			this.saveAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Save");
+			w1.Add (this.saveAction, null);
+			this.loadButtonFile = new global::Gtk.Action ("loadButtonFile", null, null, "gtk-open");
+			this.loadButtonFile.ShortLabel = "";
+			w1.Add (this.loadButtonFile, null);
+			this.saveButtonFile = new global::Gtk.Action ("saveButtonFile", null, null, "gtk-save");
+			this.saveButtonFile.ShortLabel = "";
+			w1.Add (this.saveButtonFile, null);
 			this.UIManager.InsertActionGroup (w1, 0);
 			this.AddAccelGroup (this.UIManager.AccelGroup);
 			this.Name = "SQLGrenadineGui.MainWindow";
@@ -100,7 +135,7 @@ namespace SQLGrenadineGui
 			this.vboxMain.Name = "vboxMain";
 			this.vboxMain.Spacing = 6;
 			// Container child vboxMain.Gtk.Box+BoxChild
-			this.UIManager.AddUiFromString ("<ui><menubar name='menubarMain'><menu name='FileAction' action='FileAction'><menuitem name='newAction' action='newAction'/><separator/><menuitem name='closeAction' action='closeAction'/><menuitem name='quitAction' action='quitAction'/></menu><menu name='EditAction' action='EditAction'/><menu name='DatabaseAction' action='DatabaseAction'><menuitem name='connectAction' action='connectAction'/></menu><menu name='PreferencesAction' action='PreferencesAction'/><menu name='HelpAction' action='HelpAction'/></menubar></ui>");
+			this.UIManager.AddUiFromString ("<ui><menubar name='menubarMain'><menu name='FileAction' action='FileAction'><menuitem name='newAction' action='newAction'/><menuitem name='openAction' action='openAction'/><separator/><menuitem name='saveAction' action='saveAction'/><menuitem name='saveAsAction' action='saveAsAction'/><separator/><menuitem name='closeAction' action='closeAction'/><menuitem name='quitAction' action='quitAction'/></menu><menu name='EditAction' action='EditAction'/><menu name='DatabaseAction' action='DatabaseAction'><menuitem name='connectAction' action='connectAction'/></menu><menu name='PreferencesAction' action='PreferencesAction'/><menu name='HelpAction' action='HelpAction'/></menubar></ui>");
 			this.menubarMain = ((global::Gtk.MenuBar)(this.UIManager.GetWidget ("/menubarMain")));
 			this.menubarMain.Name = "menubarMain";
 			this.vboxMain.Add (this.menubarMain);
@@ -109,21 +144,38 @@ namespace SQLGrenadineGui
 			w2.Expand = false;
 			w2.Fill = false;
 			// Container child vboxMain.Gtk.Box+BoxChild
-			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbarMain'><toolitem name='newButtonQuery' action='newButtonQuery'/><separator/><toolitem name='executeQuery' action='executeQuery'/><toolitem name='parseQuery' action='parseQuery'/><toolitem name='Action' action='Action'/></toolbar></ui>");
+			this.hboxToolbar = new global::Gtk.HBox ();
+			this.hboxToolbar.Name = "hboxToolbar";
+			this.hboxToolbar.Spacing = 6;
+			// Container child hboxToolbar.Gtk.Box+BoxChild
+			this.comboboxConnections = global::Gtk.ComboBox.NewText ();
+			this.comboboxConnections.AppendText (global::Mono.Unix.Catalog.GetString ("Not connected"));
+			this.comboboxConnections.Name = "comboboxConnections";
+			this.comboboxConnections.Active = 0;
+			this.hboxToolbar.Add (this.comboboxConnections);
+			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hboxToolbar [this.comboboxConnections]));
+			w3.Position = 0;
+			w3.Expand = false;
+			w3.Fill = false;
+			// Container child hboxToolbar.Gtk.Box+BoxChild
+			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbarMain'><toolitem name='newButtonQuery' action='newButtonQuery'/><toolitem name='loadButtonFile' action='loadButtonFile'/><toolitem name='saveButtonFile' action='saveButtonFile'/><separator/><toolitem name='executeQuery' action='executeQuery'/><toolitem name='parseQuery' action='parseQuery'/></toolbar></ui>");
 			this.toolbarMain = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/toolbarMain")));
 			this.toolbarMain.Events = ((global::Gdk.EventMask)(8992));
 			this.toolbarMain.Name = "toolbarMain";
 			this.toolbarMain.ShowArrow = false;
-			this.vboxMain.Add (this.toolbarMain);
-			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.toolbarMain]));
-			w3.Position = 1;
-			w3.Expand = false;
-			w3.Fill = false;
+			this.hboxToolbar.Add (this.toolbarMain);
+			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hboxToolbar [this.toolbarMain]));
+			w4.Position = 1;
+			this.vboxMain.Add (this.hboxToolbar);
+			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.hboxToolbar]));
+			w5.Position = 1;
+			w5.Expand = false;
+			w5.Fill = false;
 			// Container child vboxMain.Gtk.Box+BoxChild
 			this.hpanedMain = new global::Gtk.HPaned ();
 			this.hpanedMain.CanFocus = true;
 			this.hpanedMain.Name = "hpanedMain";
-			this.hpanedMain.Position = 225;
+			this.hpanedMain.Position = 179;
 			// Container child hpanedMain.Gtk.Paned+PanedChild
 			this.vbox1 = new global::Gtk.VBox ();
 			this.vbox1.Name = "vbox1";
@@ -136,10 +188,10 @@ namespace SQLGrenadineGui
 			this.toolbarDatabaseTree.ShowArrow = false;
 			this.toolbarDatabaseTree.ToolbarStyle = ((global::Gtk.ToolbarStyle)(2));
 			this.vbox1.Add (this.toolbarDatabaseTree);
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.toolbarDatabaseTree]));
-			w4.Position = 0;
-			w4.Expand = false;
-			w4.Fill = false;
+			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.toolbarDatabaseTree]));
+			w6.Position = 0;
+			w6.Expand = false;
+			w6.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.GtkScrolledWindow = new global::Gtk.ScrolledWindow ();
 			this.GtkScrolledWindow.Name = "GtkScrolledWindow";
@@ -150,11 +202,11 @@ namespace SQLGrenadineGui
 			this.treeviewDatabase.Name = "treeviewDatabase";
 			this.GtkScrolledWindow.Add (this.treeviewDatabase);
 			this.vbox1.Add (this.GtkScrolledWindow);
-			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.GtkScrolledWindow]));
-			w6.Position = 1;
+			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.GtkScrolledWindow]));
+			w8.Position = 1;
 			this.hpanedMain.Add (this.vbox1);
-			global::Gtk.Paned.PanedChild w7 = ((global::Gtk.Paned.PanedChild)(this.hpanedMain [this.vbox1]));
-			w7.Resize = false;
+			global::Gtk.Paned.PanedChild w9 = ((global::Gtk.Paned.PanedChild)(this.hpanedMain [this.vbox1]));
+			w9.Resize = false;
 			// Container child hpanedMain.Gtk.Paned+PanedChild
 			this.notebookContent = new global::Gtk.Notebook ();
 			this.notebookContent.CanFocus = true;
@@ -165,17 +217,17 @@ namespace SQLGrenadineGui
 			this.notebookContent.Scrollable = true;
 			this.hpanedMain.Add (this.notebookContent);
 			this.vboxMain.Add (this.hpanedMain);
-			global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.hpanedMain]));
-			w9.Position = 2;
+			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.hpanedMain]));
+			w11.Position = 2;
 			// Container child vboxMain.Gtk.Box+BoxChild
 			this.statusbarMain = new global::Gtk.Statusbar ();
 			this.statusbarMain.Name = "statusbarMain";
 			this.statusbarMain.Spacing = 6;
 			this.vboxMain.Add (this.statusbarMain);
-			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.statusbarMain]));
-			w10.Position = 3;
-			w10.Expand = false;
-			w10.Fill = false;
+			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.vboxMain [this.statusbarMain]));
+			w12.Position = 3;
+			w12.Expand = false;
+			w12.Fill = false;
 			this.Add (this.vboxMain);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
@@ -184,6 +236,7 @@ namespace SQLGrenadineGui
 			this.DefaultHeight = 598;
 			this.Show ();
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
+			this.KeyPressEvent += new global::Gtk.KeyPressEventHandler (this.OnKeyPressed);
 			this.newAction.Activated += new global::System.EventHandler (this.OnNewQuery);
 			this.quitAction.Activated += new global::System.EventHandler (this.OnQuit);
 			this.connectAction1.Activated += new global::System.EventHandler (this.OnConnect);
@@ -191,6 +244,8 @@ namespace SQLGrenadineGui
 			this.closeAction.Activated += new global::System.EventHandler (this.OnClose);
 			this.connectAction.Activated += new global::System.EventHandler (this.OnConnect);
 			this.executeQuery.Activated += new global::System.EventHandler (this.OnExecuteQuery);
+			this.comboboxConnections.Changed += new global::System.EventHandler (this.OnConnectionsChanged);
+			this.notebookContent.SwitchPage += new global::Gtk.SwitchPageHandler (this.OnSwitchPage);
 		}
 	}
 }

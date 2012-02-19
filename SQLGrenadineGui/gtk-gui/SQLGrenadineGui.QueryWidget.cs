@@ -11,7 +11,7 @@ namespace SQLGrenadineGui
 		private global::Gtk.ScrolledWindow GtkScrolledWindow;
 		private global::Gtk.TreeView treeviewResult;
 		private global::Gtk.ScrolledWindow GtkScrolledWindow2;
-		private global::Gtk.TextView textviewEditorMessage;
+		private global::Gtk.TextView textviewMessage;
         
 		protected virtual void Build ()
 		{
@@ -23,7 +23,7 @@ namespace SQLGrenadineGui
 			this.vpanedContent = new global::Gtk.VPaned ();
 			this.vpanedContent.CanFocus = true;
 			this.vpanedContent.Name = "vpanedContent";
-			this.vpanedContent.Position = 138;
+			this.vpanedContent.Position = 198;
 			// Container child vpanedContent.Gtk.Paned+PanedChild
 			this.GtkScrolledWindow1 = new global::Gtk.ScrolledWindow ();
 			this.GtkScrolledWindow1.Name = "GtkScrolledWindow1";
@@ -40,7 +40,7 @@ namespace SQLGrenadineGui
 			this.vpanedResult = new global::Gtk.VPaned ();
 			this.vpanedResult.CanFocus = true;
 			this.vpanedResult.Name = "vpanedResult";
-			this.vpanedResult.Position = 151;
+			this.vpanedResult.Position = 144;
 			// Container child vpanedResult.Gtk.Paned+PanedChild
 			this.GtkScrolledWindow = new global::Gtk.ScrolledWindow ();
 			this.GtkScrolledWindow.Name = "GtkScrolledWindow";
@@ -58,10 +58,10 @@ namespace SQLGrenadineGui
 			this.GtkScrolledWindow2.Name = "GtkScrolledWindow2";
 			this.GtkScrolledWindow2.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child GtkScrolledWindow2.Gtk.Container+ContainerChild
-			this.textviewEditorMessage = new global::Gtk.TextView ();
-			this.textviewEditorMessage.CanFocus = true;
-			this.textviewEditorMessage.Name = "textviewEditorMessage";
-			this.GtkScrolledWindow2.Add (this.textviewEditorMessage);
+			this.textviewMessage = new global::Gtk.TextView ();
+			this.textviewMessage.CanFocus = true;
+			this.textviewMessage.Name = "textviewMessage";
+			this.GtkScrolledWindow2.Add (this.textviewMessage);
 			this.vpanedResult.Add (this.GtkScrolledWindow2);
 			this.vpanedContent.Add (this.vpanedResult);
 			this.Add (this.vpanedContent);
@@ -69,6 +69,7 @@ namespace SQLGrenadineGui
 				this.Child.ShowAll ();
 			}
 			this.Hide ();
+			this.textviewEditor.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler (this.OnKeyReleased);
 		}
 	}
 }

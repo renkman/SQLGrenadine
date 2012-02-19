@@ -84,7 +84,7 @@
           <widget class="Gtk.ComboBoxEntry" id="comboboxentryHost">
             <property name="MemberName" />
             <property name="IsTextCombo">True</property>
-            <property name="Items" translatable="yes" />
+            <property name="Items" translatable="yes">localhost</property>
           </widget>
           <packing>
             <property name="X">130</property>
@@ -95,7 +95,7 @@
           <widget class="Gtk.ComboBoxEntry" id="comboboxentryDatabase">
             <property name="MemberName" />
             <property name="IsTextCombo">True</property>
-            <property name="Items" translatable="yes" />
+            <property name="Items" translatable="yes">db1013497-datasalmon</property>
           </widget>
           <packing>
             <property name="X">130</property>
@@ -119,7 +119,7 @@
           <widget class="Gtk.ComboBoxEntry" id="comboboxentryUser">
             <property name="MemberName" />
             <property name="IsTextCombo">True</property>
-            <property name="Items" translatable="yes" />
+            <property name="Items" translatable="yes">dbu1013497</property>
           </widget>
           <packing>
             <property name="X">130</property>

@@ -24,6 +24,8 @@ using SQLGrenadine.Database.Core;
 using Gtk;
 using GLib;
 using System.Data;
+using Pango;
+using System.Text.RegularExpressions;
 
 namespace SQLGrenadineGui
 {
@@ -32,12 +34,21 @@ namespace SQLGrenadineGui
 	[System.ComponentModel.ToolboxItem(true)]
 	public partial class QueryWidget : Gtk.Bin
 	{
+		private TextTag _tagKeyword;
+				
 		public DatabaseBase Database { get; set; }
 		public ExecuteCommand OnExecuteCommand;
 		
 		public QueryWidget ()
 		{	
 			this.Build ();
+			textviewEditor.ModifyFont(FontDescription.FromString("Monospace"));
+			
+			// Setup keyword format
+			_tagKeyword = new TextTag("keyword");
+			_tagKeyword.Weight = Weight.Bold;
+			_tagKeyword.Foreground = "#0000ff";
+			textviewEditor.Buffer.TagTable.Add(_tagKeyword);
 		}
 		
 		/// <summary>
@@ -48,13 +59,33 @@ namespace SQLGrenadineGui
 			if(Database==null)
 				return;
 			
+			var buffer = textviewEditor.Buffer;
+			
+			// Check if a part of the text is selected and use this selected 
+			// area as command, take the whole text otherwise.
+			string commandText;
+			if(buffer.HasSelection)
+			{
+				// Get selection marks
+				var selectionStart = buffer.SelectionBound;
+				var selectionEnd = buffer.InsertMark;
+				// Get text iterators
+				var iterStart = buffer.GetIterAtMark(selectionStart);
+				var iterEnd = buffer.GetIterAtMark(selectionEnd);
+				
+				// Get the selected text
+				commandText = iterStart.GetText(iterEnd);
+			}
+			else
+				commandText = textviewEditor.Buffer.Text;
+			
+			
 			// Fire the command
-			var commandText = textviewEditor.Buffer.Text;
 			var message="";
 			var result = Database.ExecuteCommand(commandText, ref message);
 			
 			// Setup result message
-			textviewEditorMessage.Buffer.Text = message;
+			textviewMessage.Buffer.Text = message;
 			
 			if(result==null)
 				return;
@@ -62,10 +93,10 @@ namespace SQLGrenadineGui
 			// Add result table to result treeview
 			var types = new Type[result.Columns.Count];
 			var index=0;
-			foreach(var column in result.Columns)
+			foreach(DataColumn column in result.Columns)
 			{
 				var resultColumn = new TreeViewColumn();
-				resultColumn.Title=column.ToString();
+				resultColumn.Title=column.Caption;
 				var resultCell = new CellRendererText();
 				resultColumn.PackStart(resultCell, true);
 				treeviewResult.AppendColumn(resultColumn);
@@ -89,6 +120,40 @@ namespace SQLGrenadineGui
 			}
 			treeviewResult.Show();
 		}
+		
+		public void HighlightCode()
+		{
+			var buffer = textviewEditor.Buffer;
+			var text = buffer.Text;
+			
+			// Reset keyword tag
+			TextIter start = buffer.GetIterAtOffset(0);
+			TextIter end = buffer.GetIterAtOffset(text.Length);		
+			buffer.RemoveTag(_tagKeyword, start, end);
+			
+			if(Database == null || Database.Keywords == null)
+				return;
+			
+			foreach(var keyword in Database.Keywords)
+			{
+				if(!text.ToUpper().Contains(keyword))
+					continue;
+				
+				// Use keyword tag at text buffer
+				var regex = new Regex(String.Format(@"(^|\s+)({0}(\s+|$))+", keyword), RegexOptions.IgnoreCase);
+				var matches = regex.Matches(text);
+				foreach(Match match in matches)
+				{
+					start = buffer.GetIterAtOffset(match.Index);
+					end = buffer.GetIterAtOffset(match.Index + match.Length);
+					buffer.ApplyTag(_tagKeyword, start, end);
+				}
+			}			
+		}
+
+		protected void OnKeyReleased (object o, Gtk.KeyReleaseEventArgs args)
+		{
+			HighlightCode();
+		}
 	}
 }
-

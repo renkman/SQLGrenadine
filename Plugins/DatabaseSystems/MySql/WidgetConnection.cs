@@ -45,9 +45,9 @@ namespace SQLGrenadine.Plugins.DatabaseSystems.MySql
 			get 
 			{
 				return SQLGrenadine.Plugins.DatabaseSystems.MySql.ConnectionData.Create(
-					comboboxentryHost.ActiveText,
-					comboboxentryDatabase.ActiveText,
-					comboboxentryUser.ActiveText,
+					comboboxentryHost.ActiveText.Trim(),
+					comboboxentryDatabase.ActiveText.Trim(),
+					comboboxentryUser.ActiveText.Trim(),
 					checkbuttonPooling.Active
 				);
 			}
